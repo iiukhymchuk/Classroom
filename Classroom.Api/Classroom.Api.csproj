@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Classroom.Common\Classroom.Common.csproj" />
     <ProjectReference Include="..\Classroom.Services\Classroom.Services.csproj" />
   </ItemGroup>
 

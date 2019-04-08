@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Scripts\Script0001 - Create Classes table.sql" />
+    <None Remove="SchemaScripts\Script0001 - Create Classes table.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\Script0001 - Create Classes table.sql" />
+    <EmbeddedResource Include="SchemaScripts\Script0001 - Create Classes table.sql" />
   </ItemGroup>
 
   <ItemGroup>

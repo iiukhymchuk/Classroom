@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Classroom.Common;
+using Classroom.Common.Models.Api;
 using Classroom.Services;
-using Classroom.Services.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Classroom.Api.Controllers
@@ -12,42 +14,66 @@ namespace Classroom.Api.Controllers
     [ApiController]
     public class ClassesController : ControllerBase
     {
+        private readonly string controllerPath;
         private readonly IClassesService service;
 
         public ClassesController(IClassesService service)
         {
+            var controllerName = nameof(ClassesController);
+            controllerPath = controllerName.Substring(0, controllerName.IndexOf("Controller")).ToLower();
             this.service = service;
         }
 
         [HttpGet("")]
         public async Task<ActionResult<List<ClassModel>>> GetAll(CancellationToken cancellationToken)
         {
-            return await service.GetClassesAsync(cancellationToken);
+            // add limitation for amount of classes fetched 
+            var result = await service.GetAllClassesAsync(cancellationToken);
+            return result.Select(x => x.ToApiModel()).ToList();
         }
 
-        [HttpGet("id: guid")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<ClassModel>> Get(Guid id, CancellationToken cancellationToken)
         {
-            // Add not found
-            return await service.GetByIdAsync(id, cancellationToken);
+            var model = await service.GetClassByIdAsync(id, cancellationToken);
+
+            if (model is null)
+                return NotFound();
+
+            return model.ToApiModel();
         }
 
         [HttpPost("")]
-        public async Task<ActionResult<ClassModel>> Post(ClassModel classModel, CancellationToken cancellationToken)
+        public async Task<ActionResult<ClassModel>> Post(ClassInputModel model, CancellationToken cancellationToken)
         {
-            if (classModel is null)
-            {
-                return BadRequest(); // Move to validators
-            }
-            var result = await service.AddClassAsync(classModel, cancellationToken);
+            // add model validation
+            var serviceModel = await service.AddClassAsync(model.ToServicesModel(), cancellationToken);
+            var result = serviceModel.ToApiModel();
 
-            if (result == 1)
-            {
-                var url = Url.RouteUrl(new { controller = "classes", id = classModel.Id });
-                return Created(url, classModel);
-            }
+            return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
+        }
 
-            return null; // remove after thinking on responses
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> Put(Guid id, ClassInputModel model, CancellationToken cancellationToken)
+        {
+            // add model validation
+            var isUpdated = await service.UpdateClassAsync(id, model.ToServicesModel(), cancellationToken);
+
+            if (!isUpdated)
+                return NotFound();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            var isDeleted = await service.DeleteClassAsync(id, cancellationToken);
+
+            if (!isDeleted)
+                return NotFound();
+
+            return NoContent();
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Classroom.Persistence.Database;
+﻿using Classroom.Common;
+using Classroom.Common.Models.Services;
+using Classroom.Persistence.Contracts;
+using Classroom.Persistence.Database;
 using Classroom.Persistence.Database.Classes;
-using Classroom.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,99 +13,83 @@ namespace Classroom.Services
 {
     public interface IClassesService
     {
-        Task<List<ClassModel>> GetClassesAsync(CancellationToken cancellationToken);
-        Task<ClassModel> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-        Task<int> AddClassAsync(ClassModel @class, CancellationToken cancellationToken);
+        Task<List<ClassModel>> GetAllClassesAsync(CancellationToken cancellationToken);
+        Task<ClassModel> GetClassByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<ClassModel> AddClassAsync(ClassInputModel model, CancellationToken cancellationToken);
+        Task<bool> UpdateClassAsync(Guid id, ClassInputModel model, CancellationToken cancellationToken);
+        Task<bool> DeleteClassAsync(Guid id, CancellationToken cancellationToken);
     }
 
     public class ClassesService : IClassesService
     {
-        public async Task<List<ClassModel>> GetClassesAsync(CancellationToken cancellationToken)
+        public async Task<List<ClassModel>> GetAllClassesAsync(CancellationToken cancellationToken)
         {
-            using (var session = new DatabaseSession())
+            return await Database.RunWithTransaction(Functor);
+
+            async Task<List<ClassModel>> Functor(IUnitOfWork uow)
             {
-                var uow = session.UnitOfWork;
-                uow.Begin();
-                try
-                {
-                    var repository = new ClassesRepository(uow);
-                    var result = await repository.GetAllAsync(cancellationToken);
-                    uow.Commit();
-                    return result.Select(ToClassModel).ToList();
-                }
-                catch
-                {
-                    uow.Rollback();
-                    throw;
-                }
+                var repository = new ClassesRepository(uow);
+                var result = await repository.GetAllAsync(cancellationToken);
+                return result.Select(x => x.ToServicesModel()).ToList();
             }
         }
 
-        public async Task<ClassModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<ClassModel> GetClassByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            using (var session = new DatabaseSession())
+            return await Database.RunWithTransaction(Functor);
+
+            async Task<ClassModel> Functor(IUnitOfWork uow)
             {
-                var uow = session.UnitOfWork;
-                uow.Begin();
-                try
-                {
-                    var repository = new ClassesRepository(uow);
-                    var result = await repository.GetByIdAsync(id, cancellationToken);
-                    uow.Commit();
-                    return ToClassModel(result);
-                }
-                catch
-                {
-                    uow.Rollback();
-                    throw;
-                }
+                var repository = new ClassesRepository(uow);
+                var result = await repository.GetByIdAsync(id, cancellationToken);
+                return result.ToServicesModel();
             }
         }
 
-        public async Task<int> AddClassAsync(ClassModel classModel, CancellationToken cancellationToken)
+        public async Task<ClassModel> AddClassAsync(ClassInputModel model, CancellationToken cancellationToken)
         {
-            using (var session = new DatabaseSession())
-            {
-                var uow = session.UnitOfWork;
-                uow.Begin();
-                try
-                {
-                    var repository = new ClassesRepository(uow);
-                    var result = await repository.InsertAsync(ToClass(classModel), cancellationToken);
+            return await Database.RunWithTransaction(Functor);
 
-                    uow.Commit();
-                    return result;
-                }
-                catch
+            async Task<ClassModel> Functor(IUnitOfWork uow)
+            {
+                var now = DateTime.UtcNow;
+                var classModel = new ClassModel
                 {
-                    uow.Rollback();
-                    throw;
-                }
+                    Id = Guid.NewGuid(),
+                    Name = model.Name,
+                    Description = model.Description,
+                    ModifiedUTC = now,
+                    CreatedUTC = now
+                };
+
+                var repository = new ClassesRepository(uow);
+                await repository.InsertAsync(classModel.ToPersistenceModel(), cancellationToken);
+                return classModel;
             }
         }
 
-        private ClassModel ToClassModel(Class @class)
+        public async Task<bool> UpdateClassAsync(Guid id, ClassInputModel model, CancellationToken cancellationToken)
         {
-            return new ClassModel
+            return await Database.RunWithTransaction(Functor);
+
+            async Task<bool> Functor(IUnitOfWork uow)
             {
-                Id = @class.Id,
-                Name = @class.Name,
-                Description = @class.Description,
-                ModifiedUTC = @class.ModifiedUTC,
-                CreatedUTC = @class.CreatedUTC
-            };
+                var repository = new ClassesRepository(uow);
+                var affected = await repository.UpdateAsync(id, model.ToPersistenceModel(DateTime.UtcNow), cancellationToken);
+                return affected >= 1 ? true : false;
+            }
         }
 
-        private Class ToClass(ClassModel classModel)
+        public async Task<bool> DeleteClassAsync(Guid id, CancellationToken cancellationToken)
         {
-            return new Class
+            return await Database.RunWithTransaction(Functor);
+
+            async Task<bool> Functor(IUnitOfWork uow)
             {
-                Id = classModel.Id,
-                Name = classModel.Name,
-                Description = classModel.Description,
-                ModifiedUTC = classModel.ModifiedUTC,
-                CreatedUTC = classModel.CreatedUTC
-            };
+                var repository = new ClassesRepository(uow);
+                var affected = await repository.DeleteAsync(id, cancellationToken);
+                return affected >= 1 ? true : false;
+            }
         }
     }
 }

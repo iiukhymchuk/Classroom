@@ -1,4 +1,5 @@
-﻿using Classroom.Persistence.Contracts;
+﻿using Classroom.Common.Models.Persistence;
+using Classroom.Persistence.Contracts;
 using Dapper;
 using System;
 using System.Collections.Generic;
@@ -20,43 +21,73 @@ namespace Classroom.Persistence.Database.Classes
             connection = unitOfWork.Connection;
         }
 
-        public async Task<List<Class>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<List<ClassModel>> GetAllAsync(CancellationToken cancellationToken)
         {
             var sql = @"SELECT [Id], [Name], [Description], [ModifiedUTC], [CreatedUTC] FROM [dbo].[Classes]";
 
-            var commandDefinition = new CommandDefinition(sql, transaction: transaction, cancellationToken: cancellationToken);
+            var definition = new CommandDefinition(sql, transaction: transaction, cancellationToken: cancellationToken);
 
-            var @class = await connection.QueryAsync<Class>(commandDefinition);
+            var @class = await connection.QueryAsync<ClassModel>(definition);
             return @class.ToList();
         }
 
-        public async Task<Class> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<ClassModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var sql = @"SELECT [Id], [Name], [Description], [ModifiedUTC], [CreatedUTC] FROM [dbo].[Classes]
                 WHERE Id = @Id";
             var param = new { Id = id };
 
-            var commandDefinition = new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken);
+            var definition = new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken);
 
-            return await connection.QueryFirstOrDefaultAsync<Class>(commandDefinition);
+            return await connection.QueryFirstOrDefaultAsync<ClassModel>(definition);
         }
 
-        public async Task<int> InsertAsync(Class @class, CancellationToken cancellationToken)
+        public async Task<int> InsertAsync(ClassModel model, CancellationToken cancellationToken)
         {
             var sql = @"INSERT INTO [dbo].[Classes] ([Id], [Name], [Description], [ModifiedUTC], [CreatedUTC])
                 VALUES (@Id, @Name, @Description, @ModifiedUTC, @CreatedUTC)";
             var param = new
             {
-                Id = @class.Id,
-                Name = @class.Name,
-                Description = @class.Description,
-                ModifiedUTC = @class.ModifiedUTC,
-                CreatedUTC = @class.CreatedUTC
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description,
+                ModifiedUTC = model.ModifiedUTC,
+                CreatedUTC = model.CreatedUTC
             };
 
-            var commandDefinition = new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken);
+            var definition = new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken);
 
-            return await connection.ExecuteAsync(commandDefinition);
+            return await connection.ExecuteAsync(definition);
+        }
+
+        public async Task<int> UpdateAsync(Guid id, ClassInputModel model, CancellationToken cancellationToken)
+        {
+            var sql = @"UPDATE [dbo].[Classes]
+                SET [Name] = @Name,
+                [Description] = @Description,
+                [ModifiedUTC] = @ModifiedUTC
+                WHERE [Id] = @Id";
+            var param = new
+            {
+                Id = id,
+                Name = model.Name,
+                Description = model.Description,
+                ModifiedUTC = model.ModifiedUTC
+            };
+
+            var definition = new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken);
+
+            return await connection.ExecuteAsync(definition);
+        }
+
+        public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var sql = "DELETE FROM [dbo].[Classes] WHERE [Id] = @Id";
+            var param = new { Id = id };
+
+            var definition = new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken);
+
+            return await connection.ExecuteAsync(definition);
         }
     }
 }

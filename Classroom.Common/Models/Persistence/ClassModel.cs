@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Classroom.Services.Models
+namespace Classroom.Common.Models.Persistence
 {
     public class ClassModel
     {

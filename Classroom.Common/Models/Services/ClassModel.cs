@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Classroom.Persistence.Database.Classes
+namespace Classroom.Common.Models.Services
 {
-    public class Class
+    public class ClassModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
