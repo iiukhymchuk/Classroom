@@ -1,12 +1,14 @@
 ﻿using Classroom.Persistence.Contracts;
 using System;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace Classroom.Persistence.Database
 {
     public static class Database
     {
-        public static async Task<TResult> RunWithTransaction<TResult>(Func<IUnitOfWork, Task<TResult>> func)
+        public static async Task<TResult> RunWithTransaction<T, TResult>(Func<T, Task<TResult>> func)
+            where T : IRepository, new()
         {
             using (var session = new DatabaseSession())
             {
@@ -14,7 +16,8 @@ namespace Classroom.Persistence.Database
                 uow.Begin();
                 try
                 {
-                    var result = await func?.Invoke(uow);
+                    T repository = CreateRepository<T>(uow);
+                    var result = await func?.Invoke(repository);
 
                     uow.Commit();
                     return result;
@@ -27,7 +30,9 @@ namespace Classroom.Persistence.Database
             }
         }
 
-        public static async Task RunWithTransaction(Func<IUnitOfWork, Task> action)
+        public static async Task<TResult> RunWithTransaction<T1, T2, TResult>(Func<T1, T2, Task<TResult>> func)
+            where T1 : IRepository, new()
+            where T2 : IRepository, new()
         {
             using (var session = new DatabaseSession())
             {
@@ -35,9 +40,12 @@ namespace Classroom.Persistence.Database
                 uow.Begin();
                 try
                 {
-                    await action?.Invoke(uow);
+                    T1 repository1 = CreateRepository<T1>(uow);
+                    T2 repository2 = CreateRepository<T2>(uow);
+                    var result = await func?.Invoke(repository1, repository2);
 
                     uow.Commit();
+                    return result;
                 }
                 catch
                 {
@@ -45,6 +53,23 @@ namespace Classroom.Persistence.Database
                     throw;
                 }
             }
+        }
+
+        private static T CreateRepository<T>(IUnitOfWork uow)
+            where T : IRepository, new()
+        {
+            var repository = new T();
+            repository.SetConnection(uow.Connection);
+            repository.SetTransaction(uow.Transaction);
+            return repository;
+        }
+
+        private static T CreateRepository<T>(IDbConnection connection)
+            where T : IRepository, new()
+        {
+            var repository = new T();
+            repository.SetConnection(connection);
+            return repository;
         }
     }
 }

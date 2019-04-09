@@ -1,5 +1,6 @@
 ﻿using Classroom.Persistence.Contracts;
 using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -7,25 +8,23 @@ namespace Classroom.Persistence.Database
 {
     public sealed class DatabaseSession : IDisposable
     {
-        IDbConnection connection = null;
-        IUnitOfWork unitOfWork = null;
+        static readonly string connectionString =
+            ConfigurationManager.ConnectionStrings["ClassroomDatabase"].ConnectionString;
 
         public DatabaseSession()
         {
-            connection = new SqlConnection(DatabaseCommon.ConnectionString);
-            connection.Open();
-            unitOfWork = new UnitOfWork(connection);
+            Connection = new SqlConnection(connectionString);
+            Connection.Open();
+            UnitOfWork = new UnitOfWork(Connection);
         }
 
-        public IUnitOfWork UnitOfWork
-        {
-            get { return unitOfWork; }
-        }
+        public IDbConnection Connection { get; } = null;
+        public IUnitOfWork UnitOfWork { get; } = null;
 
         public void Dispose()
         {
-            unitOfWork.Dispose();
-            connection.Dispose();
+            UnitOfWork?.Dispose();
+            Connection?.Dispose();
         }
     }
 }

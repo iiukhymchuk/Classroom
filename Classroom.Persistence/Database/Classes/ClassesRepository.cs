@@ -1,26 +1,15 @@
 ﻿using Classroom.Common.Models.Persistence;
-using Classroom.Persistence.Contracts;
 using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Classroom.Persistence.Database.Classes
 {
-    public sealed class ClassesRepository
+    public sealed class ClassesRepository : BaseRepository
     {
-        readonly IDbConnection connection = null;
-        readonly IDbTransaction transaction = null;
-
-        public ClassesRepository(IUnitOfWork unitOfWork)
-        {
-            transaction = unitOfWork.Transaction;
-            connection = unitOfWork.Connection;
-        }
-
         public async Task<List<ClassModel>> GetAllAsync(CancellationToken cancellationToken)
         {
             var sql = @"SELECT [Id], [Name], [Description], [ModifiedUTC], [CreatedUTC] FROM [dbo].[Classes]";
