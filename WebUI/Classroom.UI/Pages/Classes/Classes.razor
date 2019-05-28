@@ -1,11 +1,10 @@
-﻿@page "/fetchdata"
-@inject HttpClient Http
+﻿@inherits ClassesLogic
+@page "/"
+@page "/classes"
 
 <h1>Classes</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
-
-@if (classes == null)
+@if (Classes == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -16,12 +15,12 @@ else
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Description(F)</th>
+                <th>Description</th>
                 <th>Created</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var cl in classes)
+            @foreach (var cl in Classes)
             {
                 <tr>
                     <td>@cl.Id</td>
@@ -32,13 +31,4 @@ else
             }
         </tbody>
     </table>
-}
-
-@functions {
-    ClassModel[] classes;
-
-    protected override async Task OnInitAsync()
-    {
-        classes = await Http.GetJsonAsync<ClassModel[]>("http://localhost:8877/classes");
-    }
 }
