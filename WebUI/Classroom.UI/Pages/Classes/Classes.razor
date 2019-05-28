@@ -20,13 +20,13 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var cl in Classes)
+            @foreach (var cls in Classes)
             {
                 <tr>
-                    <td>@cl.Id</td>
-                    <td>@cl.Name</td>
-                    <td>@cl.Description</td>
-                    <td>@cl.Created.ToShortDateString()</td>
+                    <td>@cls.Id.ToString("N")</td>
+                    <td>@cls.Name</td>
+                    <td>@cls.Description</td>
+                    <td>@cls.Created.ToShortDateString()</td>
                 </tr>
             }
         </tbody>
