@@ -14,7 +14,7 @@ namespace Classroom.Api2
             Configuration = configuration;
         }
 
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        readonly string MyAllowSpecificOrigins = "_allowSpecificOrigins";
 
         public IConfiguration Configuration { get; }
 
@@ -26,7 +26,7 @@ namespace Classroom.Api2
                     options.AddPolicy(MyAllowSpecificOrigins,
                     builder =>
                     {
-                        builder.AllowAnyOrigin();
+                        builder.WithOrigins("http://localhost:8899");
                     });
                 })
                 .AddControllers()
@@ -38,14 +38,13 @@ namespace Classroom.Api2
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(MyAllowSpecificOrigins);
             }
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
 
