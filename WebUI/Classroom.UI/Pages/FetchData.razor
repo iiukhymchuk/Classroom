@@ -1,0 +1,44 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (classes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description(F)</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cl in classes)
+            {
+                <tr>
+                    <td>@cl.Id</td>
+                    <td>@cl.Name</td>
+                    <td>@cl.Description</td>
+                    <td>@cl.Created.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@functions {
+    Classroom.Common.Models.Api.ClassModel[] classes;
+
+    protected override async Task OnInitAsync()
+    {
+        classes = await Http.GetJsonAsync<Classroom.Common.Models.Api.ClassModel[]>("http://localhost:8877/classes");
+    }
+}
