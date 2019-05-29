@@ -1,11 +1,12 @@
 ﻿@using Classroom.UI.Common.Components
+
 @inherits ClassesLogic
 @page "/"
 @page "/classes"
 
 <h1>Classes</h1>
 
-@if (Classes == null)
+@if (Classes is null)
 {
     <p><em>Loading...</em></p>
 }
@@ -26,4 +27,3 @@ else
         </GridRow>
     </TableGrid>
 }
-

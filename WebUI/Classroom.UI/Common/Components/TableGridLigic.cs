@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Classroom.UI.Contracts;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace Classroom.UI.Common.Components
 {
-    public abstract class TableGridLigic<TableItem> : ComponentBase
+    public abstract class TableGridLogic<TableItem> : ComponentBase
     {
         [Parameter] protected RenderFragment GridHeader { get; set; }
         [Parameter] protected RenderFragment<TableItem> GridRow { get; set; }
         [Parameter] protected IEnumerable<TableItem> Items { get; set; }
         [Parameter] protected int PageSize { get; set; }
+
+        [Inject] protected IUriHelper UriHelper { get; set; }
 
         protected int TotalPagesNumber { get; set; }
         protected IEnumerable<TableItem> CurrentItems { get; set; }
@@ -42,6 +45,13 @@ namespace Classroom.UI.Common.Components
             CurrentItems = GetCurrentItemList(curentPageNumber);
 
             await Task.FromResult(0);
+        }
+
+        protected void OnClickRow(TableItem item)
+        {
+            var navigationItem = item as INavigationItem;
+            if (navigationItem != null)
+                UriHelper.NavigateTo(navigationItem.NavigationLink);
         }
 
         protected void GoToPage(int page)

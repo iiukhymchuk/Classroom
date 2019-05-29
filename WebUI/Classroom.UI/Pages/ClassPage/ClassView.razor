@@ -1,0 +1,32 @@
+﻿@using Classroom.UI.Common.Components
+
+@inherits ClassLogic
+@page "/classes/{id:guid}"
+
+@if (Class is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Class "@Class.Name"</h1>
+
+    <div>@Class.Name</div>
+    <div>@Class.Description</div>
+    <div>@Class.Created.ToShortDateString()</div>
+
+    <TableGrid Items="@Class.Courses" PageSize="5">
+        <GridHeader>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created</th>
+        </GridHeader>
+        <GridRow>
+            <td>@context.Id.ToString("N")</td>
+            <td>@context.Name</td>
+            <td>@context.Description</td>
+            <td>@context.Created.ToShortDateString()</td>
+        </GridRow>
+    </TableGrid>
+}
