@@ -8,8 +8,6 @@ namespace Classroom.UI.Pages.ClassesPage
 {
     public abstract class ClassesLogic : AppLogicComponentBase
     {
-        [Inject] protected IUriHelper UriHelper { get; set; }
-
         protected Class[] Classes { get; set; }
 
         protected override async Task OnInitAsync()

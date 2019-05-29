@@ -14,7 +14,7 @@ namespace Classroom.Api2
             Configuration = configuration;
         }
 
-        readonly string MyAllowSpecificOrigins = "_allowSpecificOrigins";
+        readonly string SpecificOrigins = "_allowSpecificOrigins";
 
         public IConfiguration Configuration { get; }
 
@@ -23,10 +23,12 @@ namespace Classroom.Api2
             services.AddDependencies()
                 .AddCors(options =>
                 {
-                    options.AddPolicy(MyAllowSpecificOrigins,
+                    options.AddPolicy(SpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:8899");
+                        builder.WithOrigins("http://localhost:8899")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                     });
                 })
                 .AddControllers()
@@ -38,7 +40,7 @@ namespace Classroom.Api2
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseCors(MyAllowSpecificOrigins);
+                app.UseCors(SpecificOrigins);
             }
             else
             {

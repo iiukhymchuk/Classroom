@@ -9,7 +9,9 @@
 }
 else
 {
-    <h1>Class "@Class.Name"</h1>
+    <h2>Class "@Class.Name" 
+        <button class="btn pagebutton btn-danger" onclick=@(async () => await DeleteClass())>X</button>
+    </h2>
 
     <div>@Class.Name</div>
     <div>@Class.Description</div>

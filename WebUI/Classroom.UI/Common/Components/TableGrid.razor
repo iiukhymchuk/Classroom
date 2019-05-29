@@ -1,7 +1,7 @@
 ﻿@inherits TableGridLogic<TableItem>
 @typeparam TableItem
 
-@if (CurrentItems != null)
+@if (Items != null)
 {
     <table>
         <thead>
@@ -10,7 +10,7 @@
         <tbody>
             @foreach (var item in CurrentItems)
             {
-                <tr class="table-grid-row-item" onclick="@(() => @OnClickRow(item))">@GridRow(item)</tr>
+                <tr class="table-grid-row-item" onclick="@(async () => @OnClickRow(item))">@GridRow(item)</tr>
             }
         </tbody>
     </table>

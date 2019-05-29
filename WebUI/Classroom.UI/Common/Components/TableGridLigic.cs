@@ -25,20 +25,26 @@ namespace Classroom.UI.Common.Components
         protected int startPageNumber;
         protected int endPageNumber;
 
-        int pagerSize = 3;
+        int pagerSize;
 
         protected override async Task OnInitAsync()
         {
-            TotalPagesNumber = (int)Math.Ceiling(Items.Count() / (double)PageSize);
+            if (Items is null || Items.Count() == 0)
+                return;
+
             curentPageNumber = 1;
             startPageNumber = 1;
-            endPageNumber = Math.Min(pagerSize, TotalPagesNumber);
+            pagerSize = 3;
+            endPageNumber = 3;
 
             await Task.FromResult(0);
         }
 
         protected override async Task OnParametersSetAsync()
         {
+            if (Items is null || Items.Count() == 0)
+                return;
+
             TotalPagesNumber = (int)Math.Ceiling(Items.Count() / (double)PageSize);
             endPageNumber = Math.Min(endPageNumber, TotalPagesNumber);
 

@@ -1,0 +1,14 @@
+﻿@layout Classroom.UI.Common.Components.MainLayout
+@page "/error/{code:int}"
+
+<div id="notfound">
+    <div class="notfound">
+        <div class="notfound-404"></div>
+        <h1>@Code</h1>
+        <h2>Oops! Somethings went unexpectedly</h2>
+        <p>Sorry but the action you were doing finished not as expected.</p>
+        <a href="">Back to homepage</a>
+    </div>
+</div>
+
+@functions { [Parameter] public int Code { get; set; } }
