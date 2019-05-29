@@ -1,4 +1,5 @@
-﻿@inherits ClassesLogic
+﻿@using Classroom.UI.Common.Components
+@inherits ClassesLogic
 @page "/"
 @page "/classes"
 
@@ -10,25 +11,19 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Created</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var cls in Classes)
-            {
-                <tr>
-                    <td>@cls.Id.ToString("N")</td>
-                    <td>@cls.Name</td>
-                    <td>@cls.Description</td>
-                    <td>@cls.Created.ToShortDateString()</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <TableGrid Items="@Classes" PageSize="5">
+        <GridHeader>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created</th>
+        </GridHeader>
+        <GridRow>
+            <td>@context.Id.ToString("N")</td>
+            <td>@context.Name</td>
+            <td>@context.Description</td>
+            <td>@context.Created.ToShortDateString()</td>
+        </GridRow>
+    </TableGrid>
 }
+

@@ -1,0 +1,34 @@
+﻿@inherits TableGridLigic<TableItem>
+@typeparam TableItem
+
+<table>
+    <thead>
+        <tr class="table-grid-grid-header">@GridHeader</tr>
+    </thead>
+    <tbody>
+        @foreach (var item in CurrentItems)
+        {
+            <tr class="table-grid-row-item">@GridRow(item)</tr>
+        }
+    </tbody>
+</table>
+
+<div class="pagination">
+    <button class="btn pagebutton btn-info" onclick=@(async () => FloatPager(Direction.Previous))>&laquo;</button>
+    <button class="btn pagebutton btn-secondary" onclick=@(async () => GoToPage(Direction.Previous))>Prev</button>
+
+    @for (int i = startPageNumber; i <= endPageNumber; i++)
+    {
+        var _page = i;
+        <button class="btn pagebutton @(_page == curentPageNumber ? "currentpage" : "")" onclick=@(async () => GoToPage(_page))>
+            @_page
+        </button>
+    }
+
+    <button class="btn pagebutton btn-secondary" onclick=@(async () => GoToPage(Direction.Next))>Next</button>
+    <button class="btn pagebutton btn-info" onclick=@(async () => FloatPager(Direction.Next))>&raquo;</button>
+
+    <span class="pagebutton btn btn-link disabled">Page @curentPageNumber of @TotalPagesNumber</span>
+</div>
+
+<link href="css/table-grid.css" rel="stylesheet" />
