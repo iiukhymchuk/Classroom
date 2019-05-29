@@ -12,8 +12,7 @@ namespace Classroom.Migrator
             var connectionString = ConfigurationManager.ConnectionStrings["ClassroomDatabase"].ConnectionString;
             EnsureDatabase.For.SqlDatabase(connectionString);
 
-            var upgrader =
-                DeployChanges.To
+            var upgrader = DeployChanges.To
                     .SqlDatabase(connectionString)
                     .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
                     .LogToConsole()
