@@ -9,13 +9,42 @@
 }
 else
 {
-    <h2>Class "@Class.Name" 
+    <h2>
+        Class "@Class.Name"
         <button class="btn pagebutton btn-danger" onclick=@(async () => await DeleteClass())>X</button>
     </h2>
 
-    <div>@Class.Name</div>
-    <div>@Class.Description</div>
-    <div>@Class.Created.ToShortDateString()</div>
+    <div class="list-group list-group-flush">
+        <span class="list-group"
+              onclick="@((e) => SetEnabled(e, Property.Name))"
+              onfocusout="@((e) => SetDisabled(e, Property.Name))">
+            <input class="list-group-item"
+                   disabled="@IsNameDisabled"
+                   value="@Class.Name"
+                   onchange="@((e) => {@Class.Name = e.Value.ToString();  SetEditButtonVisible(); })" />
+        </span>
+
+        <span class="list-group"
+              onclick="@((e) => SetEnabled(e, Property.Description))"
+              onfocusout="@((e) => SetDisabled(e, Property.Description))">
+            <textarea class="list-group-item"
+                      disabled="@IsDescriptionDisabled"
+                      rows="3"
+                      value="@Class.Description"
+                      onchange="@((e) => {@Class.Description = e.Value.ToString();  SetEditButtonVisible(); })" />
+        </span>
+
+        <input class="list-group-item" disabled value="@Class.Created.ToShortDateString()" />
+    </div>
+
+    @if (ShowEditButton)
+    {
+        <button class="btn btn-info"
+                type="button"
+                onclick="@(async () => await EditClass())">
+            Edit class
+        </button>
+    }
 
     <TableGrid Items="@Class.Courses" PageSize="5">
         <GridHeader>

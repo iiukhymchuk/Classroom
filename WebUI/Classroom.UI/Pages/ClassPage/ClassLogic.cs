@@ -9,15 +9,21 @@ using System.Threading.Tasks;
 
 namespace Classroom.UI.Pages.ClassPage
 {
-    public class ClassLogic : AppLogicComponentBase
+    public abstract class ClassLogic : AppLogicComponentBase
     {
         [Parameter] protected Guid Id { get; set; }
+
+        protected bool IsNameDisabled { get; set; } = true;
+        protected bool IsDescriptionDisabled { get; set; } = true;
+        protected bool ShowEditButton { get; set; } = false;
+
+        protected enum Property { Name, Description }
 
         protected Class Class { get; set; }
 
         string Uri => GetApiRequestUriWithIdParam(RequestRouteConstants.Class, Id);
 
-        protected override async Task OnParametersSetAsync()
+        protected override async Task OnInitAsync()
         {
             Class = await GetClass();
         }
@@ -46,6 +52,34 @@ namespace Classroom.UI.Pages.ClassPage
                 fail: () => UriHelper.NavigateTo(BuildLinkWithCodeParam(RouteConstants.Error, (int)response.StatusCode)));
         }
 
-        // Http.CancelPendingRequests
+        protected void SetEditButtonVisible()
+        {
+            ShowEditButton = true;
+        }
+
+        protected void SetEnabled(UIMouseEventArgs args, Property property)
+        {
+            if (args.Detail == 2)
+                SetState(property, false);
+        }
+
+        protected void SetDisabled(UIFocusEventArgs args, Property property)
+        {
+            SetState(property, true);
+        }
+
+        void SetState(Property property, bool value)
+        {
+            System.Diagnostics.Debug.WriteLine($"{property}, {value}");
+            switch (property)
+            {
+                case Property.Name:
+                    IsNameDisabled = value;
+                    break;
+                case Property.Description:
+                    IsDescriptionDisabled = value;
+                    break;
+            }
+        }
     }
 }

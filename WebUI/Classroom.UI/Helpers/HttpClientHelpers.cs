@@ -13,6 +13,12 @@ namespace Classroom.UI.Helpers
             return await httpClient.SendJsonGetHttpResponseAsync(HttpMethod.Put, requestUri, content);
         }
 
+        public static async Task<HttpResponseMessage> PostJsonGetHttpResponseAsync(this HttpClient httpClient,
+            string requestUri, object content)
+        {
+            return await httpClient.SendJsonGetHttpResponseAsync(HttpMethod.Post, requestUri, content);
+        }
+
         static async Task<HttpResponseMessage> SendJsonGetHttpResponseAsync(this HttpClient httpClient,
             HttpMethod method, string requestUri, object content)
         {

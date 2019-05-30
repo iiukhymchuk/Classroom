@@ -1,10 +1,10 @@
 ﻿using Classroom.UI.Common.Components;
 using Classroom.UI.Contracts;
-using Classroom.UI.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Layouts;
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Classroom.UI.Common
 {
@@ -13,6 +13,11 @@ namespace Classroom.UI.Common
     {
         [Inject] protected HttpClient Http { get; set; }
         [Inject] protected IUriHelper UriHelper { get; set; }
+
+        protected async override Task OnInitAsync()
+        {
+            UriHelper.OnLocationChanged += CancelPendingRequests;
+        }
 
         protected string GetApiRequestUri(string path)
         {
@@ -41,6 +46,11 @@ namespace Classroom.UI.Common
         {
             var parsed = LinkBuilder.BuildPath(path, new UriParameter { Name = "Code", Value = code });
             return LinkBuilder.BuildLink(parsed);
+        }
+
+        void CancelPendingRequests(object sender, string e)
+        {
+            Http.CancelPendingRequests();
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿@inherits CreateClassLogic
+@page "/classes/new"
+
+
+<h2>Create new class</h2>
+
+<EditForm Model="@Class" OnValidSubmit="@(async () => await CreateClass())">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form needs-validation">
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="name" placeholder="Name" bind="@Class.Name" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-8">
+                <textarea type="text"
+                          class="form-control"
+                          id="description"
+                          placeholder="Description"
+                          rows="3"
+                          bind="@Class.Description" />
+            </div>
+        </div>
+
+        <button class="btn btn-info" type="submit">Create class</button>
+    </div>
+</EditForm>

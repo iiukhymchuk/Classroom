@@ -50,7 +50,7 @@ namespace Classroom.Api.Controllers
             var serviceModel = await service.AddClassAsync(model.ToServicesModel(), cancellationToken);
             var result = serviceModel.ToApiModel();
 
-            return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
+            return CreatedAtAction(nameof(Post), new { id = result.Id }, result);
         }
 
         [HttpPut("{id:guid}")]
