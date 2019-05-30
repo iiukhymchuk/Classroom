@@ -15,24 +15,36 @@ else
     </h2>
 
     <div class="list-group list-group-flush">
-        <span class="list-group"
-              onclick="@((e) => SetEnabled(e, Property.Name))"
-              onfocusout="@((e) => SetDisabled(e, Property.Name))">
-            <input class="list-group-item"
-                   disabled="@IsNameDisabled"
-                   value="@Class.Name"
-                   onchange="@((e) => {@Class.Name = e.Value.ToString();  SetEditButtonVisible(); })" />
-        </span>
 
-        <span class="list-group"
-              onclick="@((e) => SetEnabled(e, Property.Description))"
-              onfocusout="@((e) => SetDisabled(e, Property.Description))">
-            <textarea class="list-group-item"
-                      disabled="@IsDescriptionDisabled"
-                      rows="3"
-                      value="@Class.Description"
-                      onchange="@((e) => {@Class.Description = e.Value.ToString();  SetEditButtonVisible(); })" />
-        </span>
+        <div class="card list-group">
+            <div class="card-body">
+                <h5 class="card-title">Name</h5>
+                <div onclick="@((e) => SetEnabled(e, Property.Name))"
+                     onfocusout="@((e) => SetDisabled(e, Property.Name))">
+                    <input id="name"
+                           class="card-text form-control"
+                           disabled="@IsNameDisabled"
+                           value="@Class.Name"
+                           onchange="@((e) => {@Class.Name = e.Value.ToString();  SetEditButtonVisible(); })" />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card list-group">
+            <div class="card-body">
+                <h5 class="card-title">Description</h5>
+                <div onclick="@((e) => SetEnabled(e, Property.Description))"
+                     onfocusout="@((e) => SetDisabled(e, Property.Description))">
+                    <textarea id="description"
+                              class="card-text form-control"
+                              disabled="@IsDescriptionDisabled"
+                              rows="3"
+                              value="@Class.Description"
+                              onchange="@((e) => {@Class.Description = e.Value.ToString();  SetEditButtonVisible(); })" />
+                </div>
+            </div>
+        </div>
 
         <input class="list-group-item" disabled value="@Class.Created.ToShortDateString()" />
     </div>
