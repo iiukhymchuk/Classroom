@@ -13,6 +13,7 @@ namespace Classroom.UI.Common
     {
         [Inject] protected HttpClient Http { get; set; }
         [Inject] protected IUriHelper UriHelper { get; set; }
+        //bool IsCancellingPendingRequests { get; set; }
 
         protected async override Task OnInitAsync()
         {
@@ -50,7 +51,11 @@ namespace Classroom.UI.Common
 
         void CancelPendingRequests(object sender, string e)
         {
-            Http.CancelPendingRequests();
+            //if (IsCancellingPendingRequests)
+            //    return;
+
+            //IsCancellingPendingRequests = true;
+            //Http.CancelPendingRequests();
         }
     }
 }

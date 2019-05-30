@@ -14,49 +14,49 @@ else
         <button class="btn pagebutton btn-danger" onclick=@(async () => await DeleteClass())>X</button>
     </h2>
 
-    <div class="list-group list-group-flush">
+    <EditForm Model="@Class" OnValidSubmit="@(async () => await EditClass())">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="list-group list-group-flush">
 
-        <div class="card list-group">
-            <div class="card-body">
-                <h5 class="card-title">Name</h5>
-                <div onclick="@((e) => SetEnabled(e, Property.Name))"
-                     onfocusout="@((e) => SetDisabled(e, Property.Name))">
-                    <input id="name"
-                           class="card-text form-control"
-                           disabled="@IsNameDisabled"
-                           value="@Class.Name"
-                           onchange="@((e) => {@Class.Name = e.Value.ToString();  SetEditButtonVisible(); })" />
+            <div class="card list-group">
+                <div class="card-body">
+                    <h5 class="card-title">Name</h5>
+                    <div onclick="@((e) => SetEnabled(e, Property.Name))"
+                         onfocusout="@((e) => SetDisabled(e, Property.Name))">
+                        <input id="name"
+                               class="card-text form-control"
+                               disabled="@IsNameDisabled"
+                               value="@Class.Name"
+                               onchange="@((e) => {@Class.Name = e.Value.ToString();  SetEditButtonVisible(); })" />
+                    </div>
                 </div>
             </div>
-        </div>
 
 
-        <div class="card list-group">
-            <div class="card-body">
-                <h5 class="card-title">Description</h5>
-                <div onclick="@((e) => SetEnabled(e, Property.Description))"
-                     onfocusout="@((e) => SetDisabled(e, Property.Description))">
-                    <textarea id="description"
-                              class="card-text form-control"
-                              disabled="@IsDescriptionDisabled"
-                              rows="3"
-                              value="@Class.Description"
-                              onchange="@((e) => {@Class.Description = e.Value.ToString();  SetEditButtonVisible(); })" />
+            <div class="card list-group">
+                <div class="card-body">
+                    <h5 class="card-title">Description</h5>
+                    <div onclick="@((e) => SetEnabled(e, Property.Description))"
+                         onfocusout="@((e) => SetDisabled(e, Property.Description))">
+                        <textarea id="description"
+                                  class="card-text form-control"
+                                  disabled="@IsDescriptionDisabled"
+                                  rows="3"
+                                  value="@Class.Description"
+                                  onchange="@((e) => {@Class.Description = e.Value.ToString();  SetEditButtonVisible(); })" />
+                    </div>
                 </div>
             </div>
+
+            <input class="list-group-item" disabled value="@Class.Created.ToShortDateString()" />
         </div>
 
-        <input class="list-group-item" disabled value="@Class.Created.ToShortDateString()" />
-    </div>
-
-    @if (ShowEditButton)
-    {
-        <button class="btn btn-info"
-                type="button"
-                onclick="@(async () => await EditClass())">
-            Edit class
-        </button>
-    }
+        @if (ShowEditButton)
+        {
+            <button class="btn btn-info" type="submit">Edit class</button>
+        }
+    </EditForm>
 
     <TableGrid Items="@Class.Courses" PageSize="5">
         <GridHeader>
