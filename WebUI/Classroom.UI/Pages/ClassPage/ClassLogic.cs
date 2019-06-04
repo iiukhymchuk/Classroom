@@ -70,7 +70,6 @@ namespace Classroom.UI.Pages.ClassPage
 
         void SetState(Property property, bool value)
         {
-            System.Diagnostics.Debug.WriteLine($"{property}, {value}");
             switch (property)
             {
                 case Property.Name:

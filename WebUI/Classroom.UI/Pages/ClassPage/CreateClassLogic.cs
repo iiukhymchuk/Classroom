@@ -18,7 +18,7 @@ namespace Classroom.UI.Pages.ClassPage
             var model = new ClassInputModel { Description = Class.Description, Name = Class.Name };
             var @class = await Http.PostJsonAsync<Class>(RequestUri, model);
 
-            UriHelper.NavigateTo(((INavigationItem) @class).NavigationLink);
+            UriHelper.NavigateTo(((INavigationItem)@class).NavigationLink);
         }
 
         protected void KeyPressed(UIKeyboardEventArgs args)

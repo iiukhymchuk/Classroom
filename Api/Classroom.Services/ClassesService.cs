@@ -1,7 +1,7 @@
 ﻿using Classroom.Common;
 using Classroom.Common.Models.Services;
 using Classroom.Persistence.Database;
-using Classroom.Persistence.Database.Classes;
+using Classroom.Persistence.Database.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

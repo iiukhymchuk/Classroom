@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Classroom.Persistence.Database.Classes
+namespace Classroom.Persistence.Database.Repositories
 {
     public sealed class ClassesRepository : BaseRepository
     {
@@ -37,11 +37,11 @@ namespace Classroom.Persistence.Database.Classes
                 VALUES (@Id, @Name, @Description, @ModifiedUTC, @CreatedUTC)";
             var param = new
             {
-                Id = model.Id,
-                Name = model.Name,
-                Description = model.Description,
-                ModifiedUTC = model.ModifiedUTC,
-                CreatedUTC = model.CreatedUTC
+                model.Id,
+                model.Name,
+                model.Description,
+                model.ModifiedUTC,
+                model.CreatedUTC
             };
 
             var definition = new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken);
@@ -59,9 +59,9 @@ namespace Classroom.Persistence.Database.Classes
             var param = new
             {
                 Id = id,
-                Name = model.Name,
-                Description = model.Description,
-                ModifiedUTC = model.ModifiedUTC
+                model.Name,
+                model.Description,
+                model.ModifiedUTC
             };
 
             var definition = new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken);
