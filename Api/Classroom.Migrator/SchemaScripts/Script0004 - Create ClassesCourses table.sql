@@ -2,8 +2,8 @@
   (
   ClassId uniqueidentifier NOT NULL,
   CourseId uniqueidentifier NOT NULL,
-  ModifiedUTC datetime2(7) NOT NULL,
-  CreatedUTC datetime2(7) NOT NULL
+  Modified datetime2(7) NOT NULL,
+  Created datetime2(7) NOT NULL
   )
 
 ALTER TABLE dbo.ClassesCourses ADD CONSTRAINT

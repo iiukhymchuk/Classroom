@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using Classroom.Persistence.Contracts;
 
-namespace Classroom.Persistence.Database.Repositories
+namespace Classroom.Persistence.Repositories
 {
     public class BaseRepository : IRepository
     {

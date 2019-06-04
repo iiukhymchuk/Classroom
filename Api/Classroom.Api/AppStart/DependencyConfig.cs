@@ -8,6 +8,7 @@ namespace Classroom.Api.AppStart
         public static IServiceCollection AddDependencies(this IServiceCollection services)
         {
             services.AddTransient<IClassesService, ClassesService>();
+            services.AddTransient<ICoursesService, CoursesService>();
             return services;
         }
     }

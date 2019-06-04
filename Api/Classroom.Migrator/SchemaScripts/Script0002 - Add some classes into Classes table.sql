@@ -2,8 +2,8 @@
     ([Id]
     ,[Name]
     ,[Description]
-    ,[ModifiedUTC]
-    ,[CreatedUTC])
+    ,[Modified]
+    ,[Created])
 VALUES
     (NEWID()
     ,N'Компоненти програмної інженерії'
