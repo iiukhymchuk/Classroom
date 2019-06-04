@@ -1,4 +1,4 @@
-﻿using Classroom.Common.Models.Api;
+﻿using Classroom.Common.Models;
 using Classroom.UI.Common;
 using Classroom.UI.Helpers;
 using Classroom.UI.Models;
@@ -19,7 +19,7 @@ namespace Classroom.UI.Pages.ClassPage
 
         protected enum Property { Name, Description }
 
-        protected Class Class { get; set; }
+        protected ClassModel Class { get; set; }
 
         string Uri => GetApiRequestUriWithIdParam(RequestRouteConstants.Class, Id);
 
@@ -28,9 +28,9 @@ namespace Classroom.UI.Pages.ClassPage
             Class = await GetClass();
         }
 
-        async Task<Class> GetClass()
+        async Task<ClassModel> GetClass()
         {
-            return await Http.GetJsonAsync<Class>(Uri);
+            return await Http.GetJsonAsync<ClassModel>(Uri);
         }
 
         protected async Task DeleteClass()
@@ -44,7 +44,7 @@ namespace Classroom.UI.Pages.ClassPage
 
         protected async Task EditClass()
         {
-            var model = new ClassInputModel { Description = Class.Description, Name = Class.Name };
+            var model = new Class { Description = Class.Description, Name = Class.Name };
             var response = await Http.PutJsonGetHttpResponseAsync(Uri, model);
 
             response.ExpectStatusCodeAction(HttpStatusCode.NoContent,

@@ -8,12 +8,12 @@ namespace Classroom.UI.Pages.ClassesPage
 {
     public abstract class ClassesLogic : AppLogicComponentBase
     {
-        protected Class[] Classes { get; set; }
+        protected ClassModel[] Classes { get; set; }
 
         protected override async Task OnInitAsync()
         {
             var url = GetApiRequestUri(RequestRouteConstants.Classes);
-            Classes = await Http.GetJsonAsync<Class[]>(url);
+            Classes = await Http.GetJsonAsync<ClassModel[]>(url);
         }
     }
 }

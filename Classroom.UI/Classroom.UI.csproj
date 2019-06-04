@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Api\Classroom.Common\Classroom.Common.csproj" />
+    <ProjectReference Include="..\Classroom.Common\Classroom.Common.csproj" />
   </ItemGroup>
 
 </Project>
