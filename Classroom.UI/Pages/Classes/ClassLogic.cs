@@ -27,7 +27,7 @@ namespace Classroom.UI.Pages.Classes
         protected override async Task OnInitAsync()
         {
             Class = await GetClass();
-            DescriptionLinesNumber = Class.Description.Split('\n').Length;
+            DescriptionLinesNumber = GetLinesAmount(Class.Description, 200);
         }
 
         async Task<ClassModel> GetClass()

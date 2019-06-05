@@ -6,38 +6,19 @@
     ,[Created])
 VALUES
     (NEWID()
-    ,N'Компоненти програмної інженерії'
-    ,N'Компоненти програмної інженерії - один з найкращих предметів на якому модна отримати знання з основ створення та підтримки програм.
-Основні питання:
-1.  Принципи моделі S.O.L.I.D.
-2.  Принцип відкритості закритості
-3.  Призначення шаблону Repository
-4.  Відмінність між шаблоном Repository та UnitOfWork
-5.  Принцип сегрегації інтерфейсів
-6.  Що таке SOAP сервіси? В якому вигляді передаються дані в SOAP сервіси.
-7.  Статусні коди HTTP протоколу.
-8.  Що таке REST Api
-9.  Відмінність REST-Api від SOAP-Api
-10.  Призначення WSDL файлу в протоколі SOAP
-11.  Що таке сервісна шина даних, які проблеми при між компонентній взаємодії вона вирішує?
-12.  Принципи роботи шаблону MVVM?
-13.  Для чого потрібні стандартні інтерфейси INotifyPropertyChanged та INotifyCollectionChanged?
-14.  DataBinding в WPF, які є типи біндінгу, що таке Binding.Converter
-15.  Багаторівнева архітектура додатків.
-16.  Придумайте дві можливі реалізації архітектури взаємодії мобільного додатку з сервером.
-17.  Що таке мікро-сервіси, де вони використовуються?
-18.  Поняття зв’язаності модулів.'
+    ,N'Computer Science class'
+    ,N'It is something about the computers'
     ,GETUTCDATE()
     ,GETUTCDATE()),
 
 	(NEWID()
-    ,N'СМіТРПЗ-3'
-    ,N'Дехто зі студентів любить називати цей предмет стріптізом, а в основному юмл діаграми'
+    ,N'Computer Science class 2'
+    ,N'It is something about the computers even more complex'
     ,GETUTCDATE()
     ,GETUTCDATE()),
 
 	(NEWID()
-    ,N'Надійність програмного забезпечення'
-    ,N'Важлива тема не тільки в навчанні, а й у житті'
+    ,N'Fine Arts'
+    ,N'Learning a visual art considered to have been created primarily for aesthetic and intellectual purposes and judged for its beauty and meaningfulness, specifically, painting, sculpture, drawing, watercolor, graphics, and architecture.'
     ,GETUTCDATE()
     ,GETUTCDATE())

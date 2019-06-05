@@ -27,7 +27,7 @@ namespace Classroom.UI.Pages.Courses
         protected override async Task OnInitAsync()
         {
             Course = await GetCourse();
-            DescriptionLinesNumber = Course.Description.Split('\n').Length;
+            DescriptionLinesNumber = GetLinesAmount(Course.Description, 200);
         }
 
         async Task<CourseModel> GetCourse()

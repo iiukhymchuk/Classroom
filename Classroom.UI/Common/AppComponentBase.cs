@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Layouts;
 using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Classroom.UI.Common
 {
@@ -13,12 +12,6 @@ namespace Classroom.UI.Common
     {
         [Inject] protected HttpClient Http { get; set; }
         [Inject] protected IUriHelper UriHelper { get; set; }
-        //bool IsCancellingPendingRequests { get; set; }
-
-        protected async override Task OnInitAsync()
-        {
-            UriHelper.OnLocationChanged += CancelPendingRequests;
-        }
 
         protected string GetApiRequestUri(string path)
         {
@@ -49,13 +42,20 @@ namespace Classroom.UI.Common
             return LinkBuilder.BuildLink(parsed);
         }
 
-        void CancelPendingRequests(object sender, string e)
+        protected int GetLinesAmount(string description, int width)
         {
-            //if (IsCancellingPendingRequests)
-            //    return;
+            var lines = description.Split('\n');
+            var linesNumber = lines.Length;
 
-            //IsCancellingPendingRequests = true;
-            //Http.CancelPendingRequests();
+            foreach (var line in lines)
+            {
+                if (line.Length > width)
+                {
+                    linesNumber += line.Length / width;
+                }
+            }
+
+            return linesNumber;
         }
     }
 }
