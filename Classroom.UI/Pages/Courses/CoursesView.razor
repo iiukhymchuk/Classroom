@@ -1,20 +1,20 @@
 ﻿@using Classroom.UI.Common
 @using Classroom.UI.Common.Components
 
-@inherits ClassesLogic
-@page "/classes"
+@inherits CoursesLogic
+@page "/courses"
 
-<h1>Classes</h1>
+<h1>Courses</h1>
 
-@if (Classes is null)
+@if (Courses is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <NavLink class="btn btn-info" href="@RouteConstants.CreateClass">Create class</NavLink>
+    <NavLink class="btn pagebutton btn-info" href="@RouteConstants.CreateCourse">Create course</NavLink>
     <br />
-    <TableGrid Items="@Classes" PageSize="5">
+    <TableGrid Items="@Courses" PageSize="5">
         <GridHeader>
             <th>Name</th>
             <th>Description</th>

@@ -16,7 +16,7 @@ namespace Classroom.Persistence.Repositories
             {
                 model.ClassId,
                 model.CourseId,
-                model.Modified.Value,
+                Modified = model.Modified.Value,
                 model.Created
             };
 

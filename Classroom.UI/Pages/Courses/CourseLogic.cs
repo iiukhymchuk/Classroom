@@ -7,9 +7,9 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Classroom.UI.Pages.Classes
+namespace Classroom.UI.Pages.Courses
 {
-    public abstract class ClassLogic : AppLogicComponentBase
+    public abstract class CourseLogic : AppLogicComponentBase
     {
         [Parameter] protected Guid Id { get; set; }
 
@@ -20,37 +20,37 @@ namespace Classroom.UI.Pages.Classes
 
         protected enum Property { Name, Description }
 
-        protected ClassModel Class { get; set; }
+        protected CourseModel Course { get; set; }
 
-        string Uri => GetApiRequestUriWithIdParam(RequestRouteConstants.Class, Id);
+        string Uri => GetApiRequestUriWithIdParam(RequestRouteConstants.Course, Id);
 
         protected override async Task OnInitAsync()
         {
-            Class = await GetClass();
-            DescriptionLinesNumber = Class.Description.Split('\n').Length;
+            Course = await GetCourse();
+            DescriptionLinesNumber = Course.Description.Split('\n').Length;
         }
 
-        async Task<ClassModel> GetClass()
+        async Task<CourseModel> GetCourse()
         {
-            return await Http.GetJsonAsync<ClassModel>(Uri);
+            return await Http.GetJsonAsync<CourseModel>(Uri);
         }
 
-        protected async Task DeleteClass()
+        protected async Task DeleteCourse()
         {
             var response = await Http.DeleteAsync(Uri);
 
             response.ExpectStatusCodeAction(HttpStatusCode.NoContent,
-                success: () => UriHelper.NavigateTo(RouteConstants.Classes),
+                success: () => UriHelper.NavigateTo(RouteConstants.Courses),
                 fail: () => UriHelper.NavigateTo(BuildLinkWithCodeParam(RouteConstants.Error, (int)response.StatusCode)));
         }
 
-        protected async Task EditClass()
+        protected async Task EditCourse()
         {
-            var model = new Class { Description = Class.Description, Name = Class.Name };
+            var model = new Course { Description = Course.Description, Name = Course.Name };
             var response = await Http.PutJsonGetHttpResponseAsync(Uri, model);
 
             response.ExpectStatusCodeAction(HttpStatusCode.NoContent,
-                success: () => UriHelper.NavigateTo(RouteConstants.Classes),
+                success: () => UriHelper.NavigateTo(RouteConstants.Courses),
                 fail: () => UriHelper.NavigateTo(BuildLinkWithCodeParam(RouteConstants.Error, (int)response.StatusCode)));
         }
 

@@ -26,7 +26,7 @@ namespace Classroom.Persistence.Repositories
                 @"SELECT [Id], [Name], [Description], c.[Modified], c.[Created]
                 FROM [dbo].[Classes] c
                 JOIN [ClassesCourses] cc ON c.Id = cc.ClassId
-                WHERE cc.ClassId = @CourseId";
+                WHERE cc.CourseId = @CourseId";
 
             var param = new { CourseId = courseId };
 
@@ -56,7 +56,7 @@ namespace Classroom.Persistence.Repositories
                 model.Id,
                 model.Name,
                 model.Description,
-                model.Modified.Value,
+                Modified = model.Modified.Value,
                 model.Created
             };
 
@@ -77,7 +77,7 @@ namespace Classroom.Persistence.Repositories
                 Id = id,
                 model.Name,
                 model.Description,
-                model.Modified.Value
+                Modified = model.Modified.Value
             };
 
             var definition = new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken);

@@ -12,7 +12,7 @@ namespace Classroom.UI.Models
         public string NavigationLink => LinkBuilder.BuildLinkWithIdParam(RouteConstants.Class, Id);
     }
 
-    static class SerializerHelper
+    static class ClassModelHelper
     {
         internal static List<CourseModel> ToModel(this List<Course> courses)
         {

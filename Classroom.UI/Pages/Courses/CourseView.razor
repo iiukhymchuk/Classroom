@@ -1,19 +1,19 @@
 ﻿@using Classroom.UI.Common.Components
 
-@inherits ClassLogic
-@page "/classes/{id:guid}"
+@inherits CourseLogic
+@page "/courses/{id:guid}"
 
-@if (Class is null)
+@if (Course is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
     <h2>
-        Class "@Class.Name"
+        Course "@Course.Name"
     </h2>
 
-    <EditForm Model="@Class" OnValidSubmit="@(async () => await EditClass())">
+    <EditForm Model="@Course" OnValidSubmit="@(async () => await EditCourse())">
         <DataAnnotationsValidator />
         <ValidationSummary />
         <div class="list-group list-group-flush">
@@ -26,8 +26,8 @@ else
                         <input id="name"
                                class="card-text form-control"
                                disabled="@IsNameDisabled"
-                               value="@Class.Name"
-                               onchange="@((e) => {@Class.Name = e.Value.ToString();  SetEditButtonVisible(); })" />
+                               value="@Course.Name"
+                               onchange="@((e) => {Course.Name = e.Value.ToString();  SetEditButtonVisible(); })" />
                     </div>
                 </div>
             </div>
@@ -42,13 +42,13 @@ else
                                   class="card-text form-control"
                                   disabled="@IsDescriptionDisabled"
                                   rows="@DescriptionLinesNumber"
-                                  value="@Class.Description"
-                                  onchange="@((e) => {@Class.Description = e.Value.ToString();  SetEditButtonVisible(); })" />
+                                  value="@Course.Description"
+                                  onchange="@((e) => {Course.Description = e.Value.ToString();  SetEditButtonVisible(); })" />
                     </div>
                 </div>
             </div>
 
-            <input class="list-group-item" disabled value="@Class.Created.ToShortDateString()" />
+            <input class="list-group-item" disabled value="@Course.Created.ToShortDateString()" />
         </div>
 
         @if (ShowEditButton)
@@ -56,15 +56,14 @@ else
             <button class="btn btn-info" type="submit">Edit class</button>
         }
     </EditForm>
+    <button class="btn pagebutton btn-danger" onclick=@(async () => await DeleteCourse())>Delete Class</button>
 
-    <button class="btn pagebutton btn-danger" onclick=@(async () => await DeleteClass())>Delete Class</button>
-
-    @if (@Class.Courses != null && @Class.Courses.Count() != 0)
+    @if (Course.Classes != null && Course.Classes.Count() != 0)
     {
         <br />
         <br />
-        <h4>Courses</h4>
-        <TableGrid Items="@Class.Courses" PageSize="5">
+        <h4>Linked classes</h4>
+        <TableGrid Items="@Course.Classes" PageSize="5">
             <GridHeader>
                 <th>Name</th>
                 <th>Description</th>

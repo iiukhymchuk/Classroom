@@ -20,9 +20,5 @@ namespace Classroom.UI.Pages.Classes
 
             UriHelper.NavigateTo(((INavigationItem)@class).NavigationLink);
         }
-
-        protected void KeyPressed(UIKeyboardEventArgs args)
-        {
-        }
     }
 }
