@@ -41,10 +41,9 @@ namespace Classroom.Api.Controllers
         public async Task<ActionResult<Class>> Post(Class model, CancellationToken cancellationToken)
         {
             // add model validation
-            var serviceModel = await service.AddClassAsync(model, cancellationToken);
-            var result = serviceModel;
+            var result = await service.AddClassAsync(model, cancellationToken);
 
-            return CreatedAtAction(nameof(Post), new { id = result.Id }, result);
+            return CreatedAtRoute(new { controller = "classes", id = result.Id }, result);
         }
 
         [HttpPut("{id:guid}")]

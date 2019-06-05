@@ -11,5 +11,6 @@ namespace Classroom.Common.Models
         public DateTime? Modified{ get; set; }
         public DateTime Created { get; set; }
         public List<Class> Classes { get; set; }
+        public List<TaskModel> Tasks { get; set; }
     }
 }

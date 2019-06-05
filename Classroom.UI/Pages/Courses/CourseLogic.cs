@@ -4,6 +4,8 @@ using Classroom.UI.Helpers;
 using Classroom.UI.Models;
 using Microsoft.AspNetCore.Components;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -21,6 +23,7 @@ namespace Classroom.UI.Pages.Courses
         protected enum Property { Name, Description }
 
         protected CourseModel Course { get; set; }
+        protected TaskModel TaskForCreation { get; set; } = new TaskModel();
 
         string Uri => GetApiRequestUriWithIdParam(RequestRouteConstants.Course, Id);
 
@@ -42,6 +45,31 @@ namespace Classroom.UI.Pages.Courses
             response.ExpectStatusCodeAction(HttpStatusCode.NoContent,
                 success: () => UriHelper.NavigateTo(RouteConstants.Courses),
                 fail: () => UriHelper.NavigateTo(BuildLinkWithCodeParam(RouteConstants.Error, (int)response.StatusCode)));
+        }
+
+        protected async Task AddTask()
+        {
+            var model = new TaskModel { Name = TaskForCreation.Name, Description = TaskForCreation.Description, CourseId = Id };
+            var url = GetApiRequestUri(RequestRouteConstants.Tasks);
+            var response = await Http.PostJsonGetHttpResponseAsync(url, model);
+
+            response.ExpectStatusCodeAction(HttpStatusCode.Created,
+                success: () => UpdateTasks(),
+                fail: () => UriHelper.NavigateTo(BuildLinkWithCodeParam(RouteConstants.Error, (int)response.StatusCode)));
+        }
+
+        void UpdateTasks()
+        {
+            Course.Tasks.Add(new TaskModel
+            {
+                Name = TaskForCreation.Name,
+                Description = TaskForCreation.Description,
+                CourseId = Id
+            });
+
+            Course.Tasks.OrderBy(x => x.Name).ThenBy(x => x.Description);
+            TaskForCreation.Name = "";
+            TaskForCreation.Description = "";
         }
 
         protected async Task EditCourse()

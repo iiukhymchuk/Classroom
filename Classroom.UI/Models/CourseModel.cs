@@ -9,6 +9,7 @@ namespace Classroom.UI.Models
     public class CourseModel : Course, INavigationItem
     {
         public new List<ClassModel> Classes => base.Classes.ToModel();
+
         public string NavigationLink => LinkBuilder.BuildLinkWithIdParam(RouteConstants.Course, Id);
 
     }

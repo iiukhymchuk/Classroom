@@ -10,11 +10,15 @@
     <None Remove="SchemaScripts\Script0002 - Add some classes into Classes table.sql" />
     <None Remove="SchemaScripts\Script0004 - Create ClassesCourses table.sql" />
     <None Remove="SchemaScripts\Script0005 - Add courses into Courses table.sql" />
+    <None Remove="SchemaScripts\Script0006 - Create Tasks table.sql" />
+    <None Remove="SchemaScripts\Script0007 - Create tasks to Tasks table.sql" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="SchemaScripts\Script0001 - Create Classes table.sql" />
     <EmbeddedResource Include="SchemaScripts\Script0004 - Create ClassesCourses table.sql" />
+    <EmbeddedResource Include="SchemaScripts\Script0007 - Create tasks to Tasks table.sql" />
+    <EmbeddedResource Include="SchemaScripts\Script0006 - Create Tasks table.sql" />
     <EmbeddedResource Include="SchemaScripts\Script0005 - Add courses into Courses table.sql" />
     <EmbeddedResource Include="SchemaScripts\Script0002 - Add some classes into Classes table.sql" />
     <EmbeddedResource Include="SchemaScripts\Script0003 - Create Courses table.sql" />

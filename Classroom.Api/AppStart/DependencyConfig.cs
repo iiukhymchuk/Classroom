@@ -9,6 +9,7 @@ namespace Classroom.Api.AppStart
         {
             services.AddTransient<IClassesService, ClassesService>();
             services.AddTransient<ICoursesService, CoursesService>();
+            services.AddTransient<ITasksService, TasksService>();
             return services;
         }
     }

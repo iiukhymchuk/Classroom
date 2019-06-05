@@ -55,6 +55,33 @@ namespace Classroom.Persistence.Database
             }
         }
 
+        public static async Task<TResult> RunWithTransaction<T1, T2, T3, TResult>(Func<T1, T2, T3, Task<TResult>> func)
+            where T1 : IRepository, new()
+            where T2 : IRepository, new()
+            where T3 : IRepository, new()
+        {
+            using (var session = new DatabaseSession())
+            {
+                IUnitOfWork uow = session.UnitOfWork;
+                uow.Begin();
+                try
+                {
+                    T1 repository1 = CreateRepository<T1>(uow);
+                    T2 repository2 = CreateRepository<T2>(uow);
+                    T3 repository3 = CreateRepository<T3>(uow);
+                    var result = await func?.Invoke(repository1, repository2, repository3);
+
+                    uow.Commit();
+                    return result;
+                }
+                catch
+                {
+                    uow.Rollback();
+                    throw;
+                }
+            }
+        }
+
         private static T CreateRepository<T>(IUnitOfWork uow)
             where T : IRepository, new()
         {

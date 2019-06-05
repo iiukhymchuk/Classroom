@@ -33,17 +33,19 @@ namespace Classroom.Services
 
         public async Task<Course> GetCourseByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return await Database.RunWithTransaction<CoursesRepository, ClassesRepository, Course>(Functor);
+            return await Database.RunWithTransaction<CoursesRepository, ClassesRepository, TasksRepository, Course>(Functor);
 
-            async Task<Course> Functor(CoursesRepository courses, ClassesRepository classes)
+            async Task<Course> Functor(CoursesRepository courses, ClassesRepository classes, TasksRepository tasks)
             {
                 var courseTask = courses.GetByIdAsync(id, cancellationToken);
                 var classesTask = classes.GetAllAsync(id, cancellationToken);
+                var tasksTask = tasks.GetAllAsync(id, cancellationToken);
 
-                await Task.WhenAll(courseTask, classesTask);
+                await Task.WhenAll(courseTask, classesTask, tasksTask);
 
                 var result = courseTask.Result;
-                result.Classes = classesTask.Result;
+                result.Classes = classesTask.Result.OrderBy(x => x.Name).ToList();
+                result.Tasks = tasksTask.Result.OrderBy(x => x.Name).ToList();
 
                 return result;
             }
@@ -56,14 +58,10 @@ namespace Classroom.Services
             async Task<Course> Functor(CoursesRepository repository)
             {
                 var now = DateTime.UtcNow;
-                model = new Course
-                {
-                    Id = Guid.NewGuid(),
-                    Name = model.Name,
-                    Description = model.Description,
-                    Modified = now,
-                    Created = now
-                };
+
+                model.Id = Guid.NewGuid();
+                model.Modified = now;
+                model.Created = now;
 
                 await repository.InsertAsync(model, cancellationToken);
                 return model;

@@ -51,6 +51,8 @@ namespace Classroom.UI.Common.Components
             CurrentItems = GetCurrentItemList(curentPageNumber);
 
             await Task.CompletedTask;
+
+            this.StateHasChanged();
         }
 
         protected void OnClickRow(TableItem item)

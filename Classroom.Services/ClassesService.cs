@@ -43,7 +43,7 @@ namespace Classroom.Services
                 await Task.WhenAll(classTask, coursesTask);
 
                 var result = classTask.Result;
-                result.Courses = coursesTask.Result;
+                result.Courses = coursesTask.Result.OrderBy(x => x.Name).ToList();
 
                 return result;
             }
@@ -56,17 +56,13 @@ namespace Classroom.Services
             async Task<Class> Functor(ClassesRepository repository)
             {
                 var now = DateTime.UtcNow;
-                var classModel = new Class
-                {
-                    Id = Guid.NewGuid(),
-                    Name = model.Name,
-                    Description = model.Description,
-                    Modified = now,
-                    Created = now
-                };
 
-                await repository.InsertAsync(classModel, cancellationToken);
-                return classModel;
+                model.Id = Guid.NewGuid();
+                model.Modified = now;
+                model.Created = now;
+
+                await repository.InsertAsync(model, cancellationToken);
+                return model;
             }
         }
 
