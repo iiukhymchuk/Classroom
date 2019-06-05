@@ -48,16 +48,16 @@ else
                 </div>
             </div>
 
-            <input class="list-group-item" disabled value="@Class.Created.ToShortDateString()" />
+            <div class="form-row">
+                <input class="list-inline-item list-group-item col-auto" disabled value="@Class.Created.ToShortDateString()" />
+                @if (ShowEditButton)
+                {
+                    <button class="btn btn-info list-inline-item col-auto" type="submit">Edit class</button>
+                }
+                <button class="btn btn-danger list-inline-item col-auto" onclick=@(async () => await DeleteClass())>Delete Class</button>
+            </div>
         </div>
-
-        @if (ShowEditButton)
-        {
-            <button class="btn btn-info" type="submit">Edit class</button>
-        }
     </EditForm>
-
-    <button class="btn pagebutton btn-danger" onclick=@(async () => await DeleteClass())>Delete Class</button>
 
     @if (@Class.Courses != null && @Class.Courses.Count() != 0)
     {
