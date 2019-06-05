@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
 
-namespace Classroom.UI.Pages.ClassesPage
+namespace Classroom.UI.Pages.Classes
 {
     public abstract class ClassesLogic : AppLogicComponentBase
     {

@@ -5,7 +5,7 @@ using Classroom.UI.Models;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
-namespace Classroom.UI.Pages.ClassPage
+namespace Classroom.UI.Pages.Classes
 {
     public abstract class CreateClassLogic : AppLogicComponentBase
     {

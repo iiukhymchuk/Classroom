@@ -1,9 +1,9 @@
 ﻿@inherits TableGridLogic<TableItem>
 @typeparam TableItem
 
-@if (Items != null)
+@if (Items != null && Items.Count() != 0)
 {
-    <table>
+    <table class="table">
         <thead>
             <tr class="table-grid-grid-header">@GridHeader</tr>
         </thead>

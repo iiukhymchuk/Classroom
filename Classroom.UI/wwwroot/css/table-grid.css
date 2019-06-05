@@ -8,10 +8,16 @@
     background: #9fcdf4;
 }
 
+table {
+    display: inline-block;
+}
+
 th, td {
     padding: 15px;
     border: 1px solid #d1d1d1;
     text-align: center;
+    max-width: 800px;
+    min-width: 400px;
 }
 
 .pagebutton {

@@ -16,22 +16,25 @@ namespace Classroom.Persistence.Repositories
 
             var definition = new CommandDefinition(sql, transaction: transaction, cancellationToken: cancellationToken);
 
-            var @class = await connection.QueryAsync<Course>(definition);
-            return @class.ToList();
+            var course = await connection.QueryAsync<Course>(definition);
+            return course.ToList();
         }
 
         public async Task<List<Course>> GetAllAsync(Guid classId, CancellationToken cancellationToken)
         {
             var sql =
                 @"
-                SELECT [Id], [Name], [Description], [Modified], [Created]
+                SELECT [Id], [Name], [Description], c.[Modified], c.[Created]
                 FROM [dbo].[Courses] c
-                JOIN [ClassesCourses] cc ON c.Id = cc.CourseId";
+                JOIN [ClassesCourses] cc ON c.Id = cc.CourseId
+                WHERE cc.ClassId = @ClassId";
 
-            var definition = new CommandDefinition(sql, transaction: transaction, cancellationToken: cancellationToken);
+            var param = new { ClassId = classId };
 
-            var @class = await connection.QueryAsync<Course>(definition);
-            return @class.ToList();
+            var definition = new CommandDefinition(sql, param, transaction: transaction, cancellationToken: cancellationToken);
+
+            var course = await connection.QueryAsync<Course>(definition);
+            return course.ToList();
         }
 
         public async Task<Course> GetByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -85,7 +88,7 @@ namespace Classroom.Persistence.Repositories
 
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var sql = "DELETE FROM [dbo].[Classes] WHERE [Id] = @Id";
+            var sql = "DELETE FROM [dbo].[Courses] WHERE [Id] = @Id";
             var param = new { Id = id };
 
             var definition = new CommandDefinition(sql, param, transaction, cancellationToken: cancellationToken);

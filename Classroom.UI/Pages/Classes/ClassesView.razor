@@ -14,16 +14,14 @@ else
 {
     <TableGrid Items="@Classes" PageSize="5">
         <GridHeader>
-            <th>Id</th>
             <th>Name</th>
             <th>Description</th>
             <th>Created</th>
         </GridHeader>
         <GridRow>
-            <td>@context.Id.ToString("N")</td>
-            <td>@context.Name</td>
-            <td>@context.Description</td>
-            <td>@context.Created.ToShortDateString()</td>
+            <td class="text-truncate">@context.Name</td>
+            <td class="text-truncate">@context.Description</td>
+            <td class="text-truncate">@context.Created.ToShortDateString()</td>
         </GridRow>
     </TableGrid>
 }

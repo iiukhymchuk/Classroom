@@ -23,11 +23,14 @@ namespace Classroom.Persistence.Repositories
         public async Task<List<Class>> GetAllAsync(Guid courseId, CancellationToken cancellationToken)
         {
             var sql =
-                @"SELECT [Id], [Name], [Description], [Modified], [Created]
-                FROM [dbo].[Classes]
-                JOIN [ClassesCourses] cc ON c.Id = cc.ClassId";
+                @"SELECT [Id], [Name], [Description], c.[Modified], c.[Created]
+                FROM [dbo].[Classes] c
+                JOIN [ClassesCourses] cc ON c.Id = cc.ClassId
+                WHERE cc.ClassId = @CourseId";
 
-            var definition = new CommandDefinition(sql, transaction: transaction, cancellationToken: cancellationToken);
+            var param = new { CourseId = courseId };
+
+            var definition = new CommandDefinition(sql, param, transaction: transaction, cancellationToken: cancellationToken);
 
             var @class = await connection.QueryAsync<Class>(definition);
             return @class.ToList();

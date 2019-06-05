@@ -3,11 +3,12 @@ using Classroom.UI.Common;
 using Classroom.UI.Helpers;
 using Classroom.UI.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Classroom.UI.Pages.ClassPage
+namespace Classroom.UI.Pages.Classes
 {
     public abstract class ClassLogic : AppLogicComponentBase
     {
@@ -16,6 +17,7 @@ namespace Classroom.UI.Pages.ClassPage
         protected bool IsNameDisabled { get; set; } = true;
         protected bool IsDescriptionDisabled { get; set; } = true;
         protected bool ShowEditButton { get; set; } = false;
+        protected int DescriptionLinesNumber { get; set; } = 3;
 
         protected enum Property { Name, Description }
 
@@ -26,6 +28,7 @@ namespace Classroom.UI.Pages.ClassPage
         protected override async Task OnInitAsync()
         {
             Class = await GetClass();
+            DescriptionLinesNumber = Class.Description.Split('\n').Length;
         }
 
         async Task<ClassModel> GetClass()

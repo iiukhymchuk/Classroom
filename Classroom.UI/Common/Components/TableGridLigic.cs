@@ -37,7 +37,7 @@ namespace Classroom.UI.Common.Components
             pagerSize = 3;
             endPageNumber = 3;
 
-            await Task.FromResult(0);
+            await Task.CompletedTask;
         }
 
         protected override async Task OnParametersSetAsync()
@@ -50,7 +50,7 @@ namespace Classroom.UI.Common.Components
 
             CurrentItems = GetCurrentItemList(curentPageNumber);
 
-            await Task.FromResult(0);
+            await Task.CompletedTask;
         }
 
         protected void OnClickRow(TableItem item)
