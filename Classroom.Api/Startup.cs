@@ -20,7 +20,8 @@ namespace Classroom.Api2
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDependencies()
+            services
+                .AddDependencies()
                 .AddCors(options =>
                 {
                     options.AddPolicy(SpecificOrigins,

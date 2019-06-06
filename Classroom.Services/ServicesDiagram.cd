@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Classroom.Services.ClassesService" BaseTypeListCollapsed="true">
+    <Position X="7.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAACABAAAAAAAAAAAAAAAAAAQAAAAEA=</HashCode>
+      <FileName>ClassesService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.335" Collapsed="true" />
+  </Class>
+  <Class Name="Classroom.Services.CoursesService" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIACAAAAAAAAAAAAAAAAQABAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>CoursesService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.335" Collapsed="true" />
+  </Class>
+  <Interface Name="Classroom.Services.IClassesService">
+    <Position X="7.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAACABAAAAAAAAAAAAAAAAAAQAAAAEA=</HashCode>
+      <FileName>ClassesService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Classroom.Services.ICoursesService">
+    <Position X="9.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIACAAAAAAAAAAAAAAAAQABAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>CoursesService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
